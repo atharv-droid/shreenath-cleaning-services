@@ -3,24 +3,7 @@
 import { Card, CardBody, Typography, Button } from "@material-tailwind/react";
 import Image from "next/image";
 
-const services = [
-  {
-    title: "Prior Festival Cleaning",
-    description: `Comprehensive cleaning to prepare your home or office for the festivities.We offer professional cleaning solutions tailored to homes, offices,
-          and businesses before festivities. Explore our most popular special
-          services below.`,
-    image: "/HomeCleaning.jpg",
-  },
-  {
-    title: "Prior Festival Cleaning",
-    description: `Comprehensive cleaning to prepare your home or office for the festivities.We offer professional cleaning solutions tailored to homes, offices,
-          and businesses before festivities. Explore our most popular special
-          services below.`,
-    image: "/HomeCleaning.jpg",
-  },
-];
-
-export default function SpecialServicesShowcase() {
+export default function SpecialServicesShowcase({ services }) {
   return (
     <section className="py-20 px-6 bg-gray-50">
       <div className="container mx-auto text-center mb-12">

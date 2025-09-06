@@ -1,14 +1,11 @@
 import React from "react";
 import {
   Navbar,
-  MobileNav,
   Typography,
-  Button,
   IconButton,
-  Card,
   Collapse,
+  Button,
 } from "@material-tailwind/react";
-import Image from "next/image";
 
 export function StickyNavbar() {
   const [openNav, setOpenNav] = React.useState(false);
@@ -19,49 +16,41 @@ export function StickyNavbar() {
       () => window.innerWidth >= 960 && setOpenNav(false)
     );
   }, []);
+  const handleScroll = (id) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      setTimeout(() => setOpenNav(false), 1000);
+    }
+  };
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
+      <Button
+        variant="gradient"
+        size="sm"
+        className=" lg:inline-block"
+        onClick={() => handleScroll("services")}
       >
-        <a href="#" className="flex items-center">
-          Services
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
+        <span>Services</span>
+      </Button>
+      <Button
+        variant="gradient"
+        size="sm"
+        className=" lg:inline-block"
+        onClick={() => handleScroll("about")}
       >
-        <a href="#" className="flex items-center">
-          About
-        </a>
-      </Typography>
-      <Typography
-        as="li"
-        variant="medium"
-        color="blue-gray"
-        className="p-1 font-normal"
+        <span>About</span>
+      </Button>
+
+      <Button
+        variant="gradient"
+        size="sm"
+        className=" lg:inline-block"
+        onClick={() => handleScroll("contact")}
       >
-        <a href="#" className="flex items-center">
-          Contact
-        </a>
-      </Typography>
-      {/* <Typography
-        as="li"
-        variant="small"
-        color="blue-gray"
-        className="p-1 font-normal"
-      >
-        <a href="#" className="flex items-center">
-          Docs
-        </a>
-      </Typography> */}
+        Contact
+      </Button>
     </ul>
   );
 
@@ -69,19 +58,6 @@ export function StickyNavbar() {
     <div className="sticky top-0 m-auto max-h-[768px] w-full overflow-hidden shadow-lg  z-50">
       <Navbar className="sticky top-0 z-50 h-max max-w-full rounded-none px-4 py-2 lg:px-8 lg:py-4">
         <div className="flex items-center justify-between text-blue-gray-900">
-          {/* <Typography
-            as="a"
-            href="#"
-            className="ml-4 cursor-pointer font-medium text-lg "
-          >
-            <img
-              src="/ShreenathCleaningServicesLogo.png"
-              alt="ShreenathServicesLogo"
-              popover="ShreenathServicesLogo"
-              className="h-12 w-12 object-cover rounded-lg"
-            />
-            Shreenath Cleaning Services
-          </Typography> */}
           <div>
             <Typography
               as="a"
@@ -89,7 +65,7 @@ export function StickyNavbar() {
               className="cursor-pointer font-medium text-lg flex items-center"
             >
               <img
-                src="/ShreenathCleaningServicesLogoTransparent.png"
+                src="https://atharv-droid.github.io/shreenath-cleaning-services-data/images/ShreenathCleaningServicesLogoTransparent.png"
                 alt="ShreenathServicesLogo"
                 className="h-12 w-12 object-cover rounded-lg mx-0 p-0 mr-2"
               />
@@ -98,22 +74,6 @@ export function StickyNavbar() {
           </div>
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
-            {/* <div className="flex items-center gap-x-1">
-              <Button
-                variant="text"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Services</span>
-              </Button>
-              <Button
-                variant="gradient"
-                size="sm"
-                className="hidden lg:inline-block"
-              >
-                <span>Sign in</span>
-              </Button>
-            </div> */}
             <IconButton
               variant="text"
               className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
