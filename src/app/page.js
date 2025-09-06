@@ -1,103 +1,107 @@
+"use client";
+import { Button, ThemeProvider, Typography } from "@material-tailwind/react";
 import Image from "next/image";
+import { StickyNavbar } from "./navbar/navbar";
+import HeroSection, { DefaultImg } from "./home/home";
+import Services, { ServicesLeft, ServicesRight } from "./services/services";
+import ContactSection from "./contact/contact";
+import Footer from "./footer/footer";
+import ServicesShowcase from "./services/services";
+import SpecialServicesShowcase from "./services/special-services";
+import About from "./about/about";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // const services = {
+  //   homeCleaning: `At Shreenath Cleaning Services, we believe your home should be a
+  //             sanctuary—clean, comfortable, and inviting. Our comprehensive Home
+  //             Cleaning service is designed to give you peace of mind and a
+  //             sparkling living environment. We meticulously clean every area,
+  //             including living rooms, kitchens, bedrooms, and bathrooms, using
+  //             safe and eco-friendly products that protect your family and the
+  //             environment. Our experienced team pays close attention to detail,
+  //             tackling dust, dirt, and grime in even the hardest-to-reach places.
+  //             Whether you need a one-time deep clean or regular maintenance, we
+  //             tailor our services to fit your schedule and specific needs. We
+  //             understand that every home is unique, so we offer flexible packages
+  //             and personalized solutions. With Shreenath Cleaning Services, you
+  //             can trust that your home will be fresh, hygienic, and welcoming for
+  //             you and your loved ones. Let us handle the cleaning, so you can
+  //             spend more time enjoying what matters most. Book your home cleaning
+  //             today and experience the difference!`,
+  //   officeCleaning: `Create a productive and welcoming workspace with Shreenath Cleaning
+  //             Services’ Office Cleaning solutions. We understand the importance of
+  //             a clean office for both employees and clients, which is why our team
+  //             delivers thorough cleaning for workstations, meeting rooms, common
+  //             areas, and restrooms. Using eco-friendly products and advanced
+  //             techniques, we remove dust, sanitize surfaces, and maintain a
+  //             hygienic environment that supports health and efficiency. Our
+  //             flexible scheduling ensures minimal disruption to your business
+  //             operations, whether you require daily, weekly, or custom cleaning
+  //             plans. We pay close attention to high-touch areas and shared spaces,
+  //             helping to reduce the spread of germs and create a positive
+  //             impression for everyone who enters your office. Trust Shreenath
+  //             Cleaning Services to keep your workplace spotless, safe, and ready
+  //             for success. Contact us today to discuss your office cleaning needs
+  //             and discover how we can help your business shine.`,
+  //   deepCleaning: `Experience a truly refreshed space with Shreenath Cleaning Services’ Deep Cleaning solutions. Our deep cleaning goes beyond the surface, targeting hidden dirt, stubborn stains, and built-up grime in every corner of your home or office. We focus on areas often overlooked during regular cleaning, such as behind appliances, under furniture, and inside cabinets. Using advanced equipment and safe, effective products, our skilled team ensures a thorough clean that promotes a healthier environment. Deep cleaning is ideal for seasonal refreshes, post-renovation cleanups, or preparing your property for special occasions. We tailor our approach to your needs, delivering exceptional results and restoring your space to its best condition. Trust Shreenath Cleaning Services for a spotless, revitalized environment—book your deep cleaning today!
+  // `,
+  // };
+  const services = [
+    {
+      title: "Home Cleaning",
+      description: `At Shreenath Cleaning Services, we believe your home should be a
+            sanctuary—clean, comfortable, and inviting. Our comprehensive Home
+            Cleaning service is designed to give you peace of mind and a
+            sparkling living environment. We meticulously clean every area,
+            including living rooms, kitchens, bedrooms, and bathrooms, using
+            safe and eco-friendly products that protect your family and the
+            environment. Our experienced team pays close attention to detail,
+            tackling dust, dirt, and grime in even the hardest-to-reach places.
+            Whether you need a one-time deep clean or regular maintenance, we
+            tailor our services to fit your schedule and specific needs. We
+            understand that every home is unique, so we offer flexible packages
+            and personalized solutions. With Shreenath Cleaning Services, you
+            can trust that your home will be fresh, hygienic, and welcoming for
+            you and your loved ones. Let us handle the cleaning, so you can
+            spend more time enjoying what matters most. Book your home cleaning
+            today and experience the difference!`,
+      image: "/HomeCleaning.jpg",
+    },
+    {
+      title: "Office Cleaning",
+      description: `Create a productive and welcoming workspace with Shreenath Cleaning
+            Services’ Office Cleaning solutions. We understand the importance of
+            a clean office for both employees and clients, which is why our team
+            delivers thorough cleaning for workstations, meeting rooms, common
+            areas, and restrooms. Using eco-friendly products and advanced
+            techniques, we remove dust, sanitize surfaces, and maintain a
+            hygienic environment that supports health and efficiency. Our
+            flexible scheduling ensures minimal disruption to your business
+            operations, whether you require daily, weekly, or custom cleaning
+            plans. We pay close attention to high-touch areas and shared spaces,
+            helping to reduce the spread of germs and create a positive
+            impression for everyone who enters your office. Trust Shreenath
+            Cleaning Services to keep your workplace spotless, safe, and ready
+            for success. Contact us today to discuss your office cleaning needs
+            and discover how we can help your business shine.`,
+      image: "/OfficeCleaning.jpg",
+    },
+    {
+      title: "Deep Cleaning",
+      description: `Experience a truly refreshed space with Shreenath Cleaning Services’ Deep Cleaning solutions. Our deep cleaning goes beyond the surface, targeting hidden dirt, stubborn stains, and built-up grime in every corner of your home or office. We focus on areas often overlooked during regular cleaning, such as behind appliances, under furniture, and inside cabinets. Using advanced equipment and safe, effective products, our skilled team ensures a thorough clean that promotes a healthier environment. Deep cleaning is ideal for seasonal refreshes, post-renovation cleanups, or preparing your property for special occasions. We tailor our approach to your needs, delivering exceptional results and restoring your space to its best condition. Trust Shreenath Cleaning Services for a spotless, revitalized environment—book your deep cleaning today!`,
+      image: "/DeepCleaning.jpg",
+    },
+  ];
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+  return (
+    <ThemeProvider>
+      <StickyNavbar></StickyNavbar>
+      <HeroSection></HeroSection>
+      <ServicesShowcase services={services}></ServicesShowcase>
+      <SpecialServicesShowcase></SpecialServicesShowcase>
+      <About></About>
+      <ContactSection></ContactSection>
+      <Footer></Footer>
+    </ThemeProvider>
   );
 }
