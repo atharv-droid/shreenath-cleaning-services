@@ -2,7 +2,8 @@ import { Typography } from "@material-tailwind/react";
 const links = ["Company", "About Us", "Team", "Products", "Blog", "Pricing"];
 const currentYear = new Date().getFullYear();
 
-export function Footer() {
+export function Footer({ contactsData }) {
+  const { address, embedMapLink } = contactsData;
   return (
     <footer className="px-8 py-28">
       <div className="container mx-auto flex flex-col items-center">
@@ -22,17 +23,20 @@ export function Footer() {
             </ul>
           ))}
         </div> */}
+
         <Typography
           color="blue-gray"
-          className="mt-6 !text-sm !font-normal text-gray-500"
+          variant="h6"
+          className="mt-6  !font-normal text-black text-center"
         >
-          Copyright &copy; {currentYear} Shreenath Cleaning Services
+          {address || ""}
         </Typography>
         <Typography
           color="blue-gray"
           className="mt-6 !text-sm !font-normal text-gray-500"
         >
-          Address comes here
+          Copyright &copy; {currentYear} Shreenath Cleaning Services. All rights
+          reserved.
         </Typography>
         <Typography
           color="blue-gray"

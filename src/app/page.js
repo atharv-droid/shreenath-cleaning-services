@@ -14,6 +14,9 @@ export default function Home() {
   const [services, setServices] = useState([]);
   const [specialServices, setSpecialServices] = useState([]);
   const [landingPage, setLandingPage] = useState([]);
+  const [aboutData, setAboutData] = useState([]);
+  const [contactsData, setContactsData] = useState([]);
+
   useEffect(() => {
     const loadLandingPage = async () => {
       try {
@@ -39,9 +42,27 @@ export default function Home() {
         console.error("Failed to fetch services:", err);
       }
     };
+    const loadAboutUsData = async () => {
+      try {
+        const data = await fetchData("aboutUs.json");
+        setAboutData(data);
+      } catch (err) {
+        console.error("Failed to fetch services:", err);
+      }
+    };
+    const loadContactsData = async () => {
+      try {
+        const data = await fetchData("contactUs.json");
+        setContactsData(data);
+      } catch (err) {
+        console.error("Failed to fetch services:", err);
+      }
+    };
     loadLandingPage();
     loadServices();
     loadSpecialServices();
+    loadAboutUsData();
+    loadContactsData();
   }, []);
   return (
     <ThemeProvider>
@@ -75,13 +96,13 @@ export default function Home() {
       </section>
 
       <section id="about" className="scroll-mt-24">
-        <About />
+        {aboutData && <About aboutData={aboutData} />}
       </section>
 
       <section id="contact" className="scroll-mt-24">
-        <ContactSection />
+        {contactsData && <ContactSection contactData={contactsData} />}
       </section>
-      <Footer></Footer>
+      <Footer contactsData={contactsData}></Footer>
     </ThemeProvider>
   );
 }

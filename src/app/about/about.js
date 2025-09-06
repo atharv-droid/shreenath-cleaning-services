@@ -5,11 +5,21 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Chip,
   Typography,
 } from "@material-tailwind/react";
 import Image from "next/image";
 
-function About() {
+function About({ aboutData }) {
+  const {
+    name,
+    profileImage,
+    title,
+    description,
+    mobileNumber,
+    email,
+    locations = {},
+  } = aboutData;
   return (
     <section className="container mx-auto px-8 py-10">
       <Typography color="blue-gray" variant="h3" className="mb-8 text-center">
@@ -18,7 +28,7 @@ function About() {
       <Card shadow={false} className="border border-gray-300 rounded-2xl">
         <CardHeader shadow={false} className="h-60 !rounded-lg">
           <img
-            src="/ShreenathCleaningServicesLogoTransparent.png"
+            src="https://atharv-droid.github.io/shreenath-cleaning-services-data/images/ShreenathCleaningServicesLogoTransparent.png"
             alt="dark"
             className="w-full h-full object-center object-contain bg-gray-300"
           />
@@ -26,16 +36,22 @@ function About() {
         <CardBody>
           <div className="flex lg:gap-0 gap-6 flex-wrap justify-between items-center">
             <div className="flex items-center gap-3">
-              <Avatar src="/img/avatar1.jpg" alt="avatar" variant="rounded" />
+              <Avatar src={profileImage} alt="avatar" variant="rounded" />
               <div>
                 <Typography color="blue-gray" variant="h6">
-                  Emma Roberts
+                  {name || "Shreenath Cleaning Services"}
                 </Typography>
                 <Typography
                   variant="small"
                   className="font-normal text-gray-600"
                 >
-                  emma.roberts@mail.com
+                  {email || ""}
+                </Typography>
+                <Typography
+                  variant="small"
+                  className="font-normal text-gray-600"
+                >
+                  {mobileNumber || ""}
                 </Typography>
               </div>
             </div>
@@ -67,18 +83,26 @@ function About() {
             variant="small"
             className="font-normal text-gray-600 mt-6"
           >
-            Shreenath Cleaning Services is a professional cleaning company
-            dedicated to providing top-notch cleaning solutions for homes and
-            offices. With a team of experienced and trained professionals, we
-            ensure a spotless and hygienic environment tailored to your needs.
-            Our commitment to quality, reliability, and customer satisfaction
-            sets us apart in the industry. Whether it's regular cleaning, deep
-            cleaning, or specialized services, we use eco-friendly products and
-            the latest techniques to deliver exceptional results. Trust
-            Shreenath Cleaning Services for a cleaner, healthier space. Your
-            satisfaction is our priority! Contact us today for a free
-            consultation and experience the difference.
+            {description ||
+              "Shreenath Cleaning Services is a professional cleaning company dedicated to providing top-notch cleaning solutions for residential and commercial spaces. With a team of experienced and trained cleaners, we ensure that every nook and corner is spotless, creating a healthy and inviting environment for our clients."}
           </Typography>
+          <Typography
+            variant="h4"
+            className="font-normal text-gray-600 mt-6 text-center "
+          >
+            {locations?.text || "We proudly serve all over Pune."}
+          </Typography>
+          <div className="font-normal text-gray-600 mt-6 text-center flex flex-wrap justify-center">
+            {locations?.list?.map((location) => (
+              <Chip
+                key={location}
+                color="amber"
+                value={location}
+                size="sm"
+                className="w-fit mx-1 mb-1"
+              />
+            ))}
+          </div>
         </CardBody>
       </Card>
     </section>

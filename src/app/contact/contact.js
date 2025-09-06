@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
 
-export function ContactSection() {
+export function ContactSection({ contactData }) {
+  const { address, embedMapLink } = contactData;
   return (
     <section className="px-8 py-8 lg:py-16">
       <div className="container mx-auto text-center">
@@ -31,8 +32,8 @@ export function ContactSection() {
           /> */}
 
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15134.274908021607!2d73.94773805!3d18.50318435!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2c048e2ca5ba7%3A0xf8f8f4a792c1beb2!2sMagarpatta%20City!5e0!3m2!1sen!2sin!4v1757082523507!5m2!1sen!2sin"
-            title="Magarpatta City Location Map"
+            src={embedMapLink}
+            title="map"
             height="100%"
             width={"100%"}
             style={{ border: 0 }}

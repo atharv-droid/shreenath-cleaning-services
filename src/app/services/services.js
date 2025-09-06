@@ -4,6 +4,7 @@ import { Typography } from "@material-tailwind/react";
 
 export function ServicesLeft({ service }) {
   // const { title, description, image } = service;
+  const mobileScreen = window.innerWidth < 768;
   return (
     <section className="py-16 px-8">
       <div className="container grid grid-cols-1 md:grid-cols-2 items-center gap-24 mx-auto">
@@ -94,6 +95,7 @@ export function ServicesRight({ service }) {
 }
 
 export function ServicesShowcase({ services = [] }) {
+  const mobileScreen = window.innerWidth < 768;
   console.log("Services data:", services);
   if (!services || services.length === 0)
     return (
@@ -119,13 +121,15 @@ export function ServicesShowcase({ services = [] }) {
       </div>
 
       {services.map((srv, idx) =>
-        srv ? (
+        srv && !mobileScreen ? (
           idx % 2 === 0 ? (
             <ServicesLeft key={srv.title || idx} service={srv} />
           ) : (
             <ServicesRight key={srv.title || idx} service={srv} />
           )
-        ) : null
+        ) : (
+          <ServicesLeft key={srv.title || idx} service={srv} />
+        )
       )}
     </>
   );
