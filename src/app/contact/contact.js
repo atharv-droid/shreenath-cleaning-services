@@ -1,8 +1,81 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Button, Input, Textarea, Typography } from "@material-tailwind/react";
-
+import SuccessMessage from "./successPopup";
+import emailjs from "@emailjs/browser";
 export function ContactSection({ contactData }) {
   const { address, embedMapLink } = contactData;
+  const form = useRef();
+  const [showDialogue, setShowDialogue] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [touched, setTouched] = useState({});
+  const [invalidFields, setInvalidFields] = useState({});
+  // const [state, dispatch] = useReducer(reducer, defaultState);
+
+  const handleShowDialogue = () => {
+    setShowDialogue(true);
+  };
+
+  const validateForm = () => {
+    const formElements = form.current.elements;
+    const firstName = formElements["first-name"].value.trim();
+    const lastName = formElements["last-name"].value.trim();
+    const email = formElements["email"].value.trim();
+    const message = formElements["message"].value.trim();
+    const invalids = {};
+    if (!firstName) invalids["first-name"] = true;
+    if (!lastName) invalids["last-name"] = true;
+    if (!email) invalids["email"] = true;
+    if (!message) invalids["message"] = true;
+    // console.log(invalidFields);
+
+    if (firstName && lastName && email && message) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+    setInvalidFields(invalids);
+    setIsFormValid(Object.keys(invalids).length === 0);
+    // console.log(isFormValid);
+  };
+  const handleBlur = (e) => {
+    console.log("Blurred:", e.target.name, isFormValid);
+    setTouched({ ...touched, [e.target.name]: true });
+    validateForm();
+  };
+  const sendEmail = (e) => {
+    e.preventDefault();
+    validateForm();
+    if (!isFormValid) {
+      setTouched({
+        "first-name": true,
+        "last-name": true,
+        email: true,
+        message: true,
+      });
+      return;
+    }
+    emailjs
+      .sendForm("service_kzhpn6g", "template_rhjgu57", form.current, {
+        publicKey: "at5ZndK8MC1cAeFOc",
+      })
+      .then(
+        () => {
+          form.current.reset();
+          setIsFormValid(false);
+          console.log("Email sent successfully!");
+          handleShowDialogue();
+        },
+        (error) => {
+          setIsError(true);
+          console.log("Error sending email:", error);
+          handleShowDialogue();
+        }
+      );
+  };
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
   return (
     <section className="px-8 py-8 lg:py-16">
       <div className="container mx-auto text-center">
@@ -43,21 +116,37 @@ export function ContactSection({ contactData }) {
             className="h-full lg:max-h-[510px]"
           ></iframe>
 
-          <form action="#" className="flex flex-col gap-4 lg:max-w-sm">
+          <form
+            className="flex flex-col gap-4 lg:max-w-sm"
+            ref={form}
+            onChange={validateForm}
+            onSubmit={sendEmail}
+          >
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Typography
                   variant="small"
-                  className="mb-2 text-left font-medium !text-gray-900"
+                  className={
+                    touched["first-name"] && invalidFields["first-name"]
+                      ? "text-red-700 mb-2 text-left font-medium "
+                      : "mb-2 text-left font-medium !text-gray-900"
+                  }
                 >
                   First Name
                 </Typography>
                 <Input
                   color="gray"
                   size="lg"
-                  placeholder="First Name"
+                  id="firstname"
                   name="first-name"
-                  className="focus:border-t-gray-900"
+                  placeholder="Tyler"
+                  type="text"
+                  onBlur={handleBlur}
+                  className={
+                    touched["first-name"] && invalidFields["first-name"]
+                      ? "animate-[shake_0.3s]"
+                      : ""
+                  }
                   containerProps={{
                     className: "min-w-full",
                   }}
@@ -69,16 +158,27 @@ export function ContactSection({ contactData }) {
               <div>
                 <Typography
                   variant="small"
-                  className="mb-2 text-left font-medium !text-gray-900"
+                  className={
+                    touched["last-name"] && invalidFields["last-name"]
+                      ? "text-red-700 mb-2 text-left font-medium "
+                      : "mb-2 text-left font-medium !text-gray-900"
+                  }
                 >
                   Last Name
                 </Typography>
                 <Input
                   color="gray"
                   size="lg"
-                  placeholder="Last Name"
                   name="last-name"
-                  className="focus:border-t-gray-900"
+                  id="lastname"
+                  placeholder="Durden"
+                  type="text"
+                  onBlur={handleBlur}
+                  className={
+                    touched["last-name"] && invalidFields["last-name"]
+                      ? "animate-[shake_0.3s]"
+                      : ""
+                  }
                   containerProps={{
                     className: "!min-w-full",
                   }}
@@ -91,7 +191,11 @@ export function ContactSection({ contactData }) {
             <div>
               <Typography
                 variant="small"
-                className="mb-2 text-left font-medium !text-gray-900"
+                className={
+                  touched["email"] && invalidFields["email"]
+                    ? "text-red-700 mb-2 text-left font-medium "
+                    : "mb-2 text-left font-medium !text-gray-900"
+                }
               >
                 Your Email
               </Typography>
@@ -100,7 +204,14 @@ export function ContactSection({ contactData }) {
                 size="lg"
                 placeholder="name@email.com"
                 name="email"
-                className="focus:border-t-gray-900"
+                id="email"
+                type="email"
+                onBlur={handleBlur}
+                className={
+                  touched["email"] && invalidFields["email"]
+                    ? "animate-[shake_0.3s]"
+                    : ""
+                }
                 containerProps={{
                   className: "!min-w-full",
                 }}
@@ -112,7 +223,11 @@ export function ContactSection({ contactData }) {
             <div>
               <Typography
                 variant="small"
-                className="mb-2 text-left font-medium !text-gray-900"
+                className={
+                  touched["message"] && invalidFields["message"]
+                    ? "text-red-700 mb-2 text-left font-medium "
+                    : "mb-2 text-left font-medium !text-gray-900"
+                }
               >
                 Your Message
               </Typography>
@@ -121,7 +236,14 @@ export function ContactSection({ contactData }) {
                 color="gray"
                 placeholder="Message"
                 name="message"
-                className="focus:border-t-gray-900"
+                id="message"
+                type="text"
+                onBlur={handleBlur}
+                className={
+                  touched["message"] && invalidFields["message"]
+                    ? "animate-[shake_0.3s]"
+                    : ""
+                }
                 containerProps={{
                   className: "!min-w-full",
                 }}
@@ -130,10 +252,20 @@ export function ContactSection({ contactData }) {
                 }}
               />
             </div>
-            <Button className="w-full" color="gray">
+            <Button
+              className="w-full"
+              color="gray"
+              type="submit"
+              disabled={!isFormValid}
+            >
               Send message
             </Button>
           </form>
+          {showDialogue && (
+            <div className="z-50 right-4 lg:md:right-[40%] top-12  fixed  mt-6">
+              <SuccessMessage isopen={showDialogue} isError={isError} />
+            </div>
+          )}
         </div>
       </div>
     </section>
